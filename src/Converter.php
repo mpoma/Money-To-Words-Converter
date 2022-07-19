@@ -191,7 +191,7 @@ class Converter
             $sentence = SentenceGenerator::generateSentence($this->moneyWholePart);
 
             if ($sentence != "") {
-                $sentence .= " " . $this->currencyForWhole . " only";
+                $sentence .= " " . $this->currencyForWhole;
 
                 if ($this->getTransalationLanguage() != Language::ENGLISH) {
                     return $this->translator->translate($sentence);
@@ -221,22 +221,21 @@ class Converter
         }
 
         if ($whole != "") {
-            $whole .= " " . $this->currencyForWhole;
+            $whole = $this->currencyForWhole . " " . $whole;
         }
         if ($decimal != "") {
             $decimal .= " " . $this->currencyForDecimal;
         }
         if ($whole != "" && $decimal != "") {
-            $whole .= ", ";
+            $whole .= ", con ";
         }
 
         $sentence = trim($whole . $decimal);
 
         if ($sentence == "") return $sentence;
-        if ($this->_translationIsEnglish()) return "{$sentence} only";
+        if ($this->_translationIsEnglish()) return "{$sentence}.";
 
-        $only = $this->translator->translate('only');
-        return $this->translator->translate("{$sentence} {$only}");
+        return $this->translator->translate("{$sentence}.");
     }
 
     /**
